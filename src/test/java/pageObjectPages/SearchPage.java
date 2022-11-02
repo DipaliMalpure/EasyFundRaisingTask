@@ -30,49 +30,49 @@ public class SearchPage
      * @param searchString
      */
 
-    public void setSearchBox(String searchString)
+    public boolean setSearchBox(String searchString)
     {
+        boolean elementPresent;
         driver.findElement(searchBox).sendKeys(searchString);
         List<WebElement> l = driver.findElements(pathForSelectingThirdOption);
         if(l.size() == 1 ){
-            System.out.println("Element found");
             setSelect_Third_Option();
-            setCLick_Search_Button();
-            //displayConfirmationMessage();
+            setClick_Search_Button();
+            elementPresent = true;
         }else{
-            System.out.println("Element not found");
+            elementPresent = false;
         }
+        return elementPresent;
     }
 
     /**
      * This is method for Confirm with a message that the selected 3rd Cause exists in the Search results
      */
-    private void displayConfirmationMessage()  {
+    public void displayConfirmationMessage(String message)  {
         JavascriptExecutor executer = (JavascriptExecutor) driver;
-        executer.executeScript("confirm('Element selected')");
+        String alretString = "alert('"+message+"')";
+        executer.executeScript(alretString);
         try {
-            Thread.sleep(100);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * This is method for Select the 3rd cause from the suggestion list
+     * This is method for Select the 3rd cause from the suggestion list if exists
      */
 
     public void setSelect_Third_Option()
     {
         driver.findElement(pathForSelectingThirdOption).click();
-
     }
 
     /**
      * This is method for Click on Search cause
      */
-    public void setCLick_Search_Button()
+    public void setClick_Search_Button()
     {
-
         driver.findElement(pathForSearchButton).click();
     }
 }
